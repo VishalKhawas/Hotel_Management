@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <title>Update Booking</title>
+
+  <link rel="stylesheet" href="/css/bs.css">
+  <link rel="stylesheet" href="/css/style.css">
+
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+
+  <div class="wrapper">
+
+    <div id="content">
+
+      <div class="top-navbar">
+        <div class="xd-topbar">
+
+          <div class="xp-breadcrumbbar text-center">
+            <h4 class="page-title">Update Existing Booking</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Admin Dashboard</a></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- form to update the user with given user id -->
+      <div class="form-style-5">
+        <form action="/update/<%=user._id%>" method="post">
+        <fieldset>
+        <legend>BOOK ROOM</legend>
+        <!-- values are for setting the defult fields -->
+        <input type="text" name="name" placeholder="User Name" value="<%=user.name %>" required>
+        <input type="email" name="email" placeholder="User Email" value="<%=user.email %>" required>
+
+        <!-- same logic as in addroom.ejs for selecting roomType and roomNo -->
+        <label for="roomType">Room Type</label>
+        <select id="roomType" name="roomType" required>
+          <option value="">Select Room Type</option>
+          <% for(let count=0; count<rooms.length; count++){ %>
+          <option value="<%=rooms[count]%>"><%= rooms[count]%></option>
+          <% } %>
+        </select>
+
+        <label for="roomNo">Room no.</label>
+        <select id="roomNo" name="roomNo" required>
+          <option value="">Select Room Number</option>
+        </select>
+
+        </fieldset>
+        <fieldset>
+        <label for="Checkintime">Check-in (date and time):</label>
+        <input type="datetime-local" id="Checkintime" name="startTime" value="<%=user.startTime %>" required>
+
+        <label for="Checkouttime">Check-out (date and time):</label>
+        <input type="datetime-local" id="Checkouttime" name="endTime" value="<%=user.endTime %>" required>
+        </fieldset>
+        <br>
+        <input type="submit" value="Update" />
+        </form>
+        </div>
+
+        <!-- footer -->
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="footer-in">
+            <p class="mb-0">Vishal Khawas</p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
+
+<!-- same function as in addroom.ejs to retrieve roomNo of particular roomType -->
+<script>
+  function _(element){
+    return document.getElementById(element);
+  }
+
+  function fetch_data(parent, child, type){
+    fetch('/get_data?type='+type+'&parent='+parent.value+'').then(
+      function(response){
+        return response.json();
+      }
+    ).then(function(responseData){
+      var html='';
+      if(type=='load_roomNo'){
+        html='<option value="">Select Room Number</option>'
+      }
+
+      for(var count=0; count<responseData.length; count++){
+        html+='<option value="'+responseData[count].room+'">'+responseData[count].room+'</option>';
+      }
+      child.innerHTML=html;
+    });
+  }
+
+  _('roomType').onchange = ()=>{
+    fetch_data(_('roomType'), _('roomNo'), 'load_roomNo')
+  }
+</script>

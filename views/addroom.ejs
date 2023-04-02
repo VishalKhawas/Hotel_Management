@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <title>New Booking</title>
+
+  <link rel="stylesheet" href="css/bs.css">
+  <link rel="stylesheet" href="css/style.css">
+
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+
+  <div class="wrapper">
+
+    <div id="content">
+
+      <div class="top-navbar">
+        <div class="xd-topbar">
+
+          <div class="xp-breadcrumbbar text-center">
+            <h4 class="page-title">Add New Booking</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Admin Dashboard</a></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- getting details of user to make a new enter into db: i.e. insertion -->
+      <div class="form-style-5">
+        <form action="/bookRoom" method="post">
+        <fieldset>
+        <legend>BOOK ROOM</legend>
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+
+          <!-- for room type, we are getting data from backend, the distinct types of rooms available is the data -->
+        <label for="roomType">Room Type</label>
+        <select id="roomType" name="roomType" required>
+          <option value="">Select Room Type</option>
+          <!-- Looping through all distinct type of rooms -->
+          <% for(let count=0; count<rooms.length; count++){ %>
+          <option value="<%=rooms[count]%>"><%= rooms[count]%></option>
+          <% } %>
+        </select>
+        
+        <!-- In case of room number of that particular room type, we are using ajax to get data dynamically from backend, function is below: -->
+        <label for="roomNo">Room no.</label>
+        <select id="roomNo" name="roomNo" required>
+          <option value="">Select Room Number</option>
+        </select>
+        
+        </fieldset>
+        <fieldset>
+        <label for="Checkintime">Check-in (date and time):</label>
+        <input type="datetime-local" id="Checkintime" name="startTime" required>
+
+        <label for="Checkouttime">Check-out (date and time):</label>
+        <input type="datetime-local" id="Checkouttime" name="endTime" required>
+        </fieldset>
+        <br>
+        <input type="submit" value="Submit" />
+        </form>
+        </div>
+
+        <!-- Footer -->
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="footer-in">
+            <p class="mb-0">Vishal Khawas</p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
+<!-- code is for getting types of roomNo available when a particular room type is selected -->
+<script>
+  // return the html element as DOM
+  function _(element){
+    return document.getElementById(element);
+  }
+
+  //fetch_data function to get roomNo available for given roomType
+  //parent: roomType
+  //child: roomNo
+  //type is a variable for validation purposes
+  function fetch_data(parent, child, type){
+    //upon calling, call the get_data route with attributes type and parent value i.e. roomType value
+    fetch('/get_data?type='+type+'&parent='+parent.value+'').then(
+      //return the response recieved in form of json
+      function(response){
+        return response.json();
+      }
+    ).then(function(responseData){
+      var html='';
+      if(type=='load_roomNo'){
+        html='<option value="">Select Room Number</option>'
+      }
+
+      //create option on the basis of value recieved from backend
+      for(var count=0; count<responseData.length; count++){
+        html+='<option value="'+responseData[count].room+'">'+responseData[count].room+'</option>';
+      }
+      //set innerHTML of roomNo as html string
+      child.innerHTML=html;
+    });
+  }
+
+    // whenever there is change in state of the button room type i.e. clicked
+  _('roomType').onchange = ()=>{
+    //call fetch_data function with attributes
+    fetch_data(_('roomType'), _('roomNo'), 'load_roomNo')
+  }
+</script>

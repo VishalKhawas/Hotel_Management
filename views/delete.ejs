@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <title>Confirm Delete</title>
+
+  <link rel="stylesheet" href="/css/bs.css">
+  <link rel="stylesheet" href="/css/style.css">
+
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+
+  <div class="wrapper">
+
+    <div id="content">
+
+      <div class="top-navbar">
+        <div class="xd-topbar">
+
+          <div class="xp-breadcrumbbar text-center">
+            <h4 class="page-title">Confirm Delete</h4>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Admin Dashboard</a></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Getting confirmation for deletion -->
+      <div style="align-items: center;">
+        <h3 class="text-center pt-5 pb-4">
+          <%= msg %>
+        </h3>
+
+        <h4 class="text-center">Refund Amount: <%= refund %>
+        </h4>
+        <form action="/delete/<%=user._id%>" method="post" class="d-flex justify-content-center pt-4 pb-5">
+          <input type="submit" value="Confirm Delete" class="btn btn-danger ">
+        </form>
+      </div>
+
+
+
+      <!-- footer -->
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="footer-in">
+            <p class="mb-0">Vishal Khawas</p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
