@@ -3,7 +3,7 @@
 //requiring mongoose for ease in connection
 const mongoose = require("mongoose");
 //connection string, can be stored as dotenv later
-const dbURl="mongodb+srv://vishalkhawas:Vishal1234@cluster0.rj1raeg.mongodb.net/?retryWrites=true&w=majority";
+const dbURl;
 
 //creating connection function
 const connectDB = async () => {
